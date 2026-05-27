@@ -17,11 +17,11 @@ They will:
 // ============================================
 
 const products = [
-  { name: "Laptop", price: 1000, inStock: true },
-  { name: "Phone", price: 500, inStock: false },
-  { name: "Tablet", price: 800, inStock: true },
-  { name: "Monitor", price: 300, inStock: true },
-  { name: "Keyboard", price: 100, inStock: false },
+	{ name: "Laptop", price: 1000, inStock: true },
+	{ name: "Phone", price: 500, inStock: false },
+	{ name: "Tablet", price: 800, inStock: true },
+	{ name: "Monitor", price: 300, inStock: true },
+	{ name: "Keyboard", price: 100, inStock: false },
 ];
 
 // ============================================
@@ -44,6 +44,12 @@ Step-by-Step:
 3. Return the filtered result.
 */
 
+function filterProducts(products, callback) {
+	return products.filter(callback);
+}
+
+const inStockProducts = filterProducts(products, (product) => product.inStock);
+console.log("\nIn-stock products:\n", inStockProducts);
 
 /*
 🔹 Task 2: Transform Product Names
@@ -56,6 +62,8 @@ Step-by-Step:
 3. Store the result in a new variable.
 */
 
+const productsUpperCase = products.map((product) => product.name.toUpperCase());
+console.log("\nProducts in uppercase:\n", productsUpperCase);
 
 /*
 🔹 Task 3: Generate Discounted Prices
@@ -71,6 +79,16 @@ Step-by-Step:
 4. Print the array of products to verify the new property and value have been added to each product object.
 */
 
+function applyDiscount(discountPercent) {
+	return function (product) {
+		return product.price - product.price * (discountPercent / 100);
+	};
+}
+
+const discount10 = applyDiscount(10); // 10% discount
+products.forEach((product) => (product.salePrice = discount10(product)));
+
+console.log("\nDiscounted Products:\n", products);
 
 /*
 🔹 Task 4: Calculate Total Inventory Value
@@ -83,6 +101,21 @@ Step-by-Step:
 3. Store the total in a new variable.
 */
 
+// const totalValue = products.reduce(
+// 	total,
+// 	(product) => {
+// 		if (product.inStock) {
+// 			return total + product.price;
+// 		}
+// 		return total;
+// 	},
+// 	0,
+// );
+
+const totalValue = products
+	.filter((product) => product.inStock) // only if in stock
+	.reduce((total, product) => total + product.price, 0);
+console.log("\nTotal Inventory Value: ", totalValue);
 
 // ============================================
 // 🧪 Console Test Your Work
